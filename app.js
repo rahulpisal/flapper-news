@@ -10,6 +10,16 @@ var users = require('./routes/users');
 
 var app = express();
 
+var mongoose = require('mongoose');
+var Post = require('./models/Posts');
+var Comment = require('./models/Comments');
+var User = require('./models/Users');
+var Passport = require('./config/passport');
+
+mongoose.connect('mongodb://localhost:27017/news');
+
+var passport = require('passport');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -21,6 +31,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
 
 app.use('/', routes);
 app.use('/users', users);
