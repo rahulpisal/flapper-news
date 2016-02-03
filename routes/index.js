@@ -23,7 +23,7 @@ router.param('post', function(req, res, next, id) {
         return next();
     });
 });
-/*router.param('comment', function(req, res, next, id) {
+router.param('comment', function(req, res, next, id) {
     var query = Comment.findById(id);
     query.exec(function(err, comment) {
         if (err) {
@@ -35,7 +35,7 @@ router.param('post', function(req, res, next, id) {
         req.comment = comment;
         return next();
     });
-});*/
+});
 // GET /posts
 router.get('/posts', function(req, res, next) {
     Post.find(function(err, posts) {
@@ -85,9 +85,21 @@ router.put('/posts/:post/downvote', auth, function(req, res, next) {
 });
 //PUT /posts/:post/comments/:comment/upvote
 router.put('/posts/:post/comments/:comment/upvote', auth, function(req, res, next) {
+    req.comment.upvote(function(err, comment) {
+        if (err) {
+            return next(err);
+        }
+        res.json(comment);
+    });
 });
 // PUT /post/:post/comments/:comment/downvote
 router.put('/posts/:post/comments/:comment/downvote', auth, function(req, res, next) {
+    req.comment.downvote(function(err, comment) {
+        if (err) {
+            return next(err);
+        }
+        res.json(comment);
+    });
 });
 // POST /posts/:post/comments
 router.post('/posts/:post/comments', auth, function(req, res, next) {

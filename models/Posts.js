@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var PostSchema = new mongoose.Schema({
     title: String,
     link: String,
-    upvotes: {
+    votes: {
         type: Number,
         default: 0
     },
@@ -12,11 +12,11 @@ var PostSchema = new mongoose.Schema({
     }]
 });
 PostSchema.methods.upvote = function(cb) {
-    this.upvotes += 1;
+    this.votes += 1;
     this.save(cb);
 };
 PostSchema.methods.downvote = function(cb) {
-    this.upvotes -= 1;
+    this.votes -= 1;
     this.save(cb);
 };
 module.exports = mongoose.model('Post', PostSchema);
